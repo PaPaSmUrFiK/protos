@@ -1,1 +1,3 @@
-module protos
+module SSO
+
+go 1.25.3
