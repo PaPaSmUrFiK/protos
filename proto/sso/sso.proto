@@ -1,0 +1,40 @@
+syntax = "proto3"; //версия Protobuf
+
+package auth; //Пространство имен
+
+option go_package="maksim.sso.v1;ssov1"; //Для кодогенерации на go
+
+service Auth{
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
+}
+
+message RegisterRequest{
+  string email = 1; //Email пользователя для регистрации
+  string password = 2; //Пароль пользователя для регистрации
+}
+
+message RegisterResponse{
+  int64 user_id = 1; // Id зарегистированного пользователя
+}
+
+message LoginRequest {
+  string email = 1; //Email пользователя для входа
+  string password = 2;//Пароль пользователя для входа
+  int32 app_id = 3;//Id приложения для входа
+}
+
+message LoginResponse {
+  string token = 1; //JWT token
+}
+
+message IsAdminRequest{
+  int64 user_id = 1;//Id пользователя
+}
+
+message IsAdminResponse{
+  bool is_admin = 1;//ФЯвляется ли пользователь админом
+}
+
+//protoc -I proto proto/sso/sso.proto --go_out=./gen/go --go_opt=paths=source_relative --go-grpc_out=./gen/go/ --go-grpc_opt=paths=source_relative
